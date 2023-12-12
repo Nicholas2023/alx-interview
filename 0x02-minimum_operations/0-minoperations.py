@@ -1,36 +1,35 @@
-#!/usr/bin/ python3
-"""
-A module that implements the minOperations()
-"""
-import math
+#!/usr/bin/python3
+'''The minimum operations coding challenge.
+'''
 
 
 def minOperations(n):
-    """
-    Calculates the fewest number of operations needed to result
-    in exactly n H chars in the file
-    Args:
-        n (int): The target number of H characters
-    Returns:
-        The minimum number of operations needed to acheive n chars
-        If n is impossible to acheive, return 0
-    """
-    # Base case
-    if n == 1:
+    '''Computes the fewest number of operations needed to result
+    in exactly n H characters.
+    '''
+    if not isinstance(n, int):
         return 0
-
-    # Find the largest power of 2 less than or equal to n
-    power = 2 ** int(math.log2(n))
-
-    # Check if n is directlt achievable by pasting
-    if n % power == 0:
-        return int(math.log2(n))
-
-    # Recursively calculate the min operation for both possibilities
-    # 1. Copy all chars and paste n // power times
-    # 2. Copy all chars, paste power times.
-
-    return 1 + min(
-        int(math.log2(n)) + 1,
-        minOperations(n - power) + 2
-    )
+    ops_count = 0
+    clipboard = 0
+    done = 1
+    # print('H', end='')
+    while done < n:
+        if clipboard == 0:
+            # init (the first copy all and paste)
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+            # print('-(11)->{}'.format('H' * done), end='')
+        elif n - done > 0 and (n - done) % done == 0:
+            # copy all and paste
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+            # print('-(11)->{}'.format('H' * done), end='')
+        elif clipboard > 0:
+            # paste
+            done += clipboard
+            ops_count += 1
+            # print('-(01)->{}'.format('H' * done), end='')
+    # print('')
+    return ops_count
