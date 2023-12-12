@@ -5,7 +5,7 @@ A module that implements the minOperations()
 import math
 
 
-def minOperations(n: int) -> int:
+def minOperations(n):
     """
     Calculates the fewest number of operations needed to result
     in exactly n H chars in the file
