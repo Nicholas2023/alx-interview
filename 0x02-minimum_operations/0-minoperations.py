@@ -11,18 +11,15 @@ def minOperations(n: int) -> int:
     where only 'Copy All' and 'Paste' are allowed
     """
     if n <= 1:
-        return 0
+        return n
 
     operations = 0
-    factor = 2
+    divisor = 2
 
-    while factor * factor <= n:
-        while n % factor == 0:
-            operations += factor
-            n //= factor
-        factor += 1
-
-    if n > 1:
-        operations += n
+    while n > 1:
+        while n % divisor == 0:
+            operations += divisor
+            n //= divisor
+        divisor += 1
 
     return operations
