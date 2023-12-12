@@ -2,24 +2,35 @@
 """
 A module that implements the minOperations()
 """
+import math
 
 
 def minOperations(n: int) -> int:
     """
-    Returns the minimum number of operations required to
-    achieve a specific number of characters in a text
-    where only 'Copy All' and 'Paste' are allowed
+    Calculates the fewest number of operations needed to result
+    in exactly n H chars in the file
+    Args:
+        n (int): The target number of H characters
+    Returns:
+        The minimum number of operations needed to acheive n chars
+        If n is impossible to acheive, return 0
     """
-    if n <= 1:
-        return n
+    # Base case
+    if n == 1:
+        return 0
 
-    operations = 0
-    divisor = 2
+    # Find the largest power of 2 less than or equal to n
+    power = 2 ** int(math.log2(n))
 
-    while n > 1:
-        while n % divisor == 0:
-            operations += divisor
-            n //= divisor
-        divisor += 1
+    # Check if n is directlt achievable by pasting
+    if n % power == 0:
+        return int(math.log2(n))
 
-    return operations
+    # Recursively calculate the min operation for both possibilities
+    # 1. Copy all chars and paste n // power times
+    # 2. Copy all chars, paste power times.
+
+    return 1 + min(
+        int(math.log2(n)) + 1,
+        minOperations(n - power) + 2
+    )
